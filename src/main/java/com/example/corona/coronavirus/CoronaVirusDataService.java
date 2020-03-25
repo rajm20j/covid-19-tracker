@@ -47,7 +47,8 @@ public class CoronaVirusDataService {
             for (LocationStatus item : newStats) {
                 if (item.getCountry().equals(currentCountry)) {
                     item.setState(item.getState()+", "+record.get("Province/State"));
-                    item.setLatestTotal(item.getLatestTotal() + Integer.parseInt(record.get(record.size() - 1)));
+                    if(!record.get(record.size() - 1).equals(""))
+                        item.setLatestTotal(item.getLatestTotal() + Integer.parseInt(record.get(record.size() - 1)));
                     countryDoesNotExists = false;
                 }
             }
