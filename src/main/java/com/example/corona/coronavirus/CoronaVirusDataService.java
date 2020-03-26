@@ -18,7 +18,7 @@ import java.util.List;
 
 @Service
 public class CoronaVirusDataService {
-    private static String VIRUS_DATA_URL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv";
+    private static String VIRUS_DATA_URL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv";
     private List<LocationStatus> allStats = new ArrayList<>();
 
     @PostConstruct
@@ -41,12 +41,13 @@ public class CoronaVirusDataService {
         for (CSVRecord record : records) {
             countryDoesNotExists = true;
             LocationStatus locationStatus = new LocationStatus();
-            String currentCountry = record.get("Country/Region");
+            String currentCountry = record.get("Country/Region").trim();
             System.out.println(currentCountry);
 
             for (LocationStatus item : newStats) {
                 if (item.getCountry().equals(currentCountry)) {
-                    item.setState(item.getState()+", "+record.get("Province/State"));
+                    if(!record.get("Province/State").equals(""))
+                        item.setState(item.getState()+", "+record.get("Province/State"));
                     if(!record.get(record.size() - 1).equals(""))
                         item.setLatestTotal(item.getLatestTotal() + Integer.parseInt(record.get(record.size() - 1)));
                     countryDoesNotExists = false;
@@ -64,6 +65,15 @@ public class CoronaVirusDataService {
 
 
         newStats.sort((o1, o2) -> o1.getCountry().compareTo(o2.getCountry()));
+        for(int i=0; i<newStats.size(); i++)
+        {
+            if(newStats.get(i).getCountry().equals("India"))
+            {
+                newStats.add(0, newStats.get(i));
+                newStats.remove(i+1);
+                break;
+            }
+        }
 //        newStats.sort((o1, o2) -> o1.getCountry().compareTo(o2.getCountry()));
         this.allStats = newStats;
     }

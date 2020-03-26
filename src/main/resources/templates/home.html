@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <title>Covid-19 tracker</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" type="text/css" href="index.css">
+<!--    <link rel="stylesheet" type="text/css" href="../static/css/index.css">-->
+    <link href="../static/css/index.css" th:href="@{/css/index.css}" rel="stylesheet" />
     <!-- <link rel = "stylesheet" type = "text/css" href = "myStyle.css" /> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
@@ -16,9 +16,9 @@
     <div class="container">
         <h1>Covid-19 tracker location wise</h1>
 
-        <div class="row" align="center" style="width: 100%;">
+        <div class="row" align="center">
             <div class="col s12 m8 offset-m2">
-                <div class="card blue-grey darken-1">
+                <div class="card grey darken-4">
                     <div class="card-content white-text">
                         <h4>Total number of reported cases</h4>
                         <span class="card-title" th:text="${totalReportedCases}"></span>
@@ -26,19 +26,19 @@
                 </div>
             </div>
         </div>
-        <table class="highlight centered">
+        <table class="highlight centered outer-border">
             <thead>
-                <tr>
-                    <th>Country</th>
-                    <th>State</th>
-                    <th>Latest Total</th>
+                <tr class="outer-border">
+                    <th class="outer-border">Country</th>
+                    <th class="outer-border">State</th>
+                    <th class="outer-border">Latest Total</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="stat: ${stats}" class="my-table">
-                    <td th:text="${stat.country}"></td>
-                    <td th:text="${stat.state}"></td>
-                    <td th:text="${stat.latestTotal}"></td>
+                    <td th:text="${stat.country}" class="outer-border"/>
+                    <td th:text="${stat.state}" class="outer-border"/>
+                    <td th:text="${stat.latestTotal}" class="outer-border"/>
                 </tr>
             </tbody>
         </table>

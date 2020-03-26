@@ -1,0 +1,23 @@
+body{
+	background-color: #eeeeee
+}
+
+th, td {
+}   
+
+table {
+	margin-bottom: 50px;
+}
+
+.my-table:hover {
+	background-color: #123456;
+}
+
+.outer-border {
+	border: 1px solid #D1D1D1;
+	padding: 20px;
+}
+
+h1 {
+    text-transform: capitalize;
+}
