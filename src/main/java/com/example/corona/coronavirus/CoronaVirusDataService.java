@@ -46,31 +46,32 @@ public class CoronaVirusDataService {
 
             for (LocationStatus item : newStats) {
                 if (item.getCountry().equals(currentCountry)) {
-                    if(!record.get("Province/State").equals(""))
-                        item.setState(item.getState()+", "+record.get("Province/State"));
-                    if(!record.get(record.size() - 1).equals(""))
-                        item.setLatestTotal(item.getLatestTotal() + Integer.parseInt(record.get(record.size() - 1)));
+                    if (!record.get("Province/State").equals(""))
+                        item.setState(item.getState() + ", " + record.get("Province/State"));
+                    if (!record.get(record.size() - 1).equals(""))
+                        if (Integer.parseInt(record.get(record.size() - 1)) > 0)
+                            item.setLatestTotal(item.getLatestTotal() + Integer.parseInt(record.get(record.size() - 1)));
                     countryDoesNotExists = false;
                 }
             }
 
-            if(countryDoesNotExists)
-            {
+            if (countryDoesNotExists) {
                 locationStatus.setCountry(currentCountry);
                 locationStatus.setState(record.get("Province/State"));
-                locationStatus.setLatestTotal(Integer.parseInt(record.get(record.size() - 1)));
-                newStats.add(locationStatus);
+                if (!record.get(record.size() - 1).equals(""))
+                    if (Integer.parseInt(record.get(record.size() - 1)) > 0) {
+                        locationStatus.setLatestTotal(Integer.parseInt(record.get(record.size() - 1)));
+                        newStats.add(locationStatus);
+                    }
             }
         }
 
 
         newStats.sort((o1, o2) -> o1.getCountry().compareTo(o2.getCountry()));
-        for(int i=0; i<newStats.size(); i++)
-        {
-            if(newStats.get(i).getCountry().equals("India"))
-            {
+        for (int i = 0; i < newStats.size(); i++) {
+            if (newStats.get(i).getCountry().equals("India")) {
                 newStats.add(0, newStats.get(i));
-                newStats.remove(i+1);
+                newStats.remove(i + 1);
                 break;
             }
         }
